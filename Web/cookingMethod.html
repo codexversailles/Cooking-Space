@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cooking Space - Cooking Method Category</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;700&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles/main.css">
+    <style>
+        .footer-link {
+            color: #E4E1CF;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .footer-link:hover {
+            opacity: 0.8;
+        }
+
+        .logo-hover {
+            transition: all 0.3s ease;
+        }
+
+        .logo-hover:hover {
+            transform: scale(1.1);
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.7)) brightness(1.2) !important;
+        }
+
+        
+        .search-container {
+            position: relative;
+        }
+
+        .search-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 200px;
+            background-color: #E4E1CF;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-top: 5px;
+            z-index: 1000;
+            padding: 15px;
+            transition: width 0.3s ease, transform 0.2s ease, opacity 0.2s ease;
+            transform-origin: right top;
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        .search-dropdown.active {
+            display: block;
+            animation: dropdownAppear 0.2s ease forwards;
+        }
+
+        @keyframes dropdownAppear {
+            0% {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .search-dropdown.expanded {
+            width: 350px;
+        }
+
+        .search-results {
+            background-color: #E4E1CF;
+            border-radius: 8px;
+            padding: 15px;
+            color: #333;
+            min-height: 50px;
+            max-height: 400px;
+            overflow-y: auto;
+            font-family: 'Source Serif 4', serif;
+            font-size: 16px;
+            opacity: 0;
+            transform: translateY(-10px);
+            animation: resultsAppear 0.3s ease 0.1s forwards;
+        }
+
+        @keyframes resultsAppear {
+            0% {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .search-input-wrapper {
+            position: relative;
+        }
+
+        
+        .recipe-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            padding: 20px;
+            background-color: #464530;
+            margin: 20px;
+            border-radius: 15px;
+        }
+
+        .recipe-card {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .recipe-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+
+        .recipe-title {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(85, 210, 130, 0.9);
+            color: #E4E1CF;
+            padding: 10px;
+            font-family: 'Source Serif 4', serif;
+            font-size: 18px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    
+    <div style="background-color: #464530; height: 120px; width: 100%; position: relative; display: flex; align-items: center; padding: 0 20px; justify-content: space-between;">
+        
+        <div style="
+            background-color: #565435;
+            height: 320px; 
+            width: 100vw;
+            position: absolute;
+            display: flex;
+            top: 120px;
+            left: 0;
+            align-items: center;
+            justify-content: space-between;
+            overflow: hidden;">
+
+            
+            <div style="
+                padding-left: 90px; 
+                padding-top: 20px; 
+                width: 50%; 
+                position: relative; 
+                z-index: 2;
+                background-color: #565435;
+                margin-right: 50px;">
+                <p style="
+                    display: flex;
+                    font-family: 'Source Serif 4', serif;
+                    color: #E4E1CF;
+                    font-size: 30px;
+                    margin: 0;">
+                    Home > Index > <span id="category-name">Cooking Method</span>
+                </p>
+                <p class="zcool-font" style="
+                    display: flex;
+                    color: #55D282;
+                    font-size: 50px;
+                    font-style: italic;
+                    font-weight: bold;
+                    margin: 0;">
+                    <span id="category-title">Cooking Method</span>
+                </p>
+                <p style="
+                    display: flex;
+                    font-family: 'Source Serif 4', serif;
+                    color:#E4E1CF;
+                    font-size: 20px;
+                    margin: 0;
+                    margin-top: 5px;">
+                    <span id="category-description">Description will be loaded dynamically</span>
+                </p>
+            </div>
+
+            
+            <div style="
+                width: 50%;
+                height: 320px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                z-index: 1;">
+                <div style="
+                    width: 100%;
+                    height: 100%;
+                    background-color: #FFFFFF;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-family: 'Source Serif 4', serif;
+                    color: #333333;">
+                    Picture Here
+                </div>
+            </div>
+        </div>
+
+        
+        <div style="display: flex; align-items: center;">
+            <img src="Icons/Logo.png" class="logo-hover" style="
+            height: 280px;
+            margin-left: 30px;
+            margin-top: 80px;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.7));">
+
+            <img src="Icons/Cooking Space.png" class="logo-hover" style="
+            height: 200px;
+            margin-top: 30px;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.7));">
+        </div>
+
+        
+        <div style="
+            display: flex;
+            gap: 50px;
+            font-family: 'Source Serif 4', serif;
+            font-size: 20px; 
+            color: #E4E1CF;
+            margin-right: 20px;
+            align-items: center;">
+            
+            
+            <div style="display: flex; gap: 20px;">
+                <a href="?method=baking" class="category-link">Baking</a>
+                <a href="?method=grilling" class="category-link">Grilling</a>
+                <a href="?method=slow-cooking" class="category-link">Slow Cooking</a>
+                <a href="?method=frying" class="category-link">Frying</a>
+                <a href="?method=steaming" class="category-link">Steaming</a>
+            </div>
+
+            
+            <div class="search-container">
+                <div class="search-input-wrapper">
+                    <input type="text" placeholder="Search..." id="searchInput" style="
+                        padding: 10px 40px 10px 15px;
+                        border: none;
+                        border-radius: 20px;
+                        font-size: 16px;
+                        font-family: 'Source Serif 4', serif;
+                        background-color: #E4E1CF;
+                        color: #333;
+                        width: 200px;
+                        outline: none;
+                        cursor: text;">
+                    
+                    <img src="Icons/search-icon.png" id="searchIcon" style="
+                        position: absolute;
+                        right: 15px;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        height: 18px;
+                        cursor: pointer;">
+                </div>
+
+                
+                <div class="search-dropdown" id="searchDropdown">
+                    <div class="search-results">
+                    </div>
+                </div>
+            </div>
+
+            
+            <button class="login-btn" onclick="window.location.href='login.html'">
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiM0NjQ1MzAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMjAgMjF2LTJhNCA0IDAgMCAwLTQtNEg4YTQgNCAwIDAgMC00IDR2MiI+PC9wYXRoPjxjaXJjbGUgY3g9IjEyIiBjeT0iNyIgcj0iNCIgLz48L3N2Zz4=" alt="User icon" style="width: 24px; height: 24px; filter: brightness(0.2);">
+                Login
+            </button>
+        </div>
+    </div>
+
+    
+    <div style="min-height: calc(100vh - 120px - 230px); margin-top: 350px; margin-bottom: -250px;">
+        
+        <div style="
+            background-color: #464530;
+            border-radius: 50px; 
+            height: 500px; 
+            width: 96%; 
+            margin: 20px auto -250px auto;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;">
+            
+            <div id="recipe-container" style="
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+                padding: 0 20px;
+                align-items: center;">
+            </div>
+        </div>
+    </div>
+
+    
+    <div style="
+        background-color: #565435;
+        width: 100vw;
+        height: 300px;
+        margin-top: -250px;
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+        justify-content: space-between;
+        box-sizing: border-box;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);">
+
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <img src="Icons/Logo.png" style="
+            height: 350px;
+            margin-top: -170px;
+            filter: drop-shadow(2px 2px 4px rgba(255, 255, 255, 0.7));">
+            
+            <img src="Icons/Cooking Space.png" style="
+            height: 150px;
+            margin-top: -110px;
+            margin-left: 50px;
+            filter: drop-shadow(2px 2px 4px rgba(255, 255, 255, 0.7));">
+        </div>
+
+        <div style="font-family: 'Source Serif 4', serif;
+            color: #E4E1CF;
+            position: absolute;
+            font-size: 25px;
+            margin-left: 25%;
+            display: flex;
+            align-items: center;
+            gap: 130px;
+            margin-top: -150px;">
+            <a href="#" class="footer-link">Recipe Categories</a>
+            <a href="#" class="footer-link">Ingredients Categories</a>
+            <a href="#" class="footer-link">Cooking Tips</a>
+            <a href="#" class="footer-link">Follow Us</a>
+            <a href="#" class="footer-link">Contact Us</a>
+            <a href="#" class="footer-link">About Us</a>
+        </div>
+    </div>
+
+    
+    <div style="
+        background-color: #E4E1CF;
+        height: 60px;
+        width: 100%;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Source Serif 4', serif;
+        color: #141414;
+        font-size: 18px;
+        box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.2);
+        z-index: 999;">
+        &copy; 2023 Cooking Space. All rights reserved.
+    </div>
+
+    
+    <div class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+        ↑
+    </div>
+
+    
+    <script>
+        const categoryData = {
+            baking: {
+                name: "Baking",
+                title: "Baking Methods",
+                description: "Master the art of baking with our collection of recipes and techniques. From breads to pastries, learn the precise science and art of baking in your own kitchen.",
+                recipes: [
+                    { name: "Classic Sourdough", image: "methods/baking/sourdough.jpg" },
+                    { name: "Chocolate Cake", image: "methods/baking/chocolate-cake.jpg" },
+                    { name: "Croissants", image: "methods/baking/croissants.jpg" },
+                    { name: "Pizza Dough", image: "methods/baking/pizza-dough.jpg" },
+                    { name: "Apple Pie", image: "methods/baking/apple-pie.jpg" }
+                ]
+            },
+            grilling: {
+                name: "Grilling",
+                title: "Grilling Methods",
+                description: "Fire up your grill and explore the world of outdoor cooking. From perfect steaks to grilled vegetables, discover the techniques that make grilling an art form.",
+                recipes: [
+                    { name: "Grilled Steak", image: "methods/grilling/steak.jpg" },
+                    { name: "BBQ Chicken", image: "methods/grilling/bbq-chicken.jpg" },
+                    { name: "Grilled Vegetables", image: "methods/grilling/vegetables.jpg" },
+                    { name: "Grilled Fish", image: "methods/grilling/fish.jpg" },
+                    { name: "Grilled Pizza", image: "methods/grilling/pizza.jpg" }
+                ]
+            },
+            'slow-cooking': {
+                name: "Slow Cooking",
+                title: "Slow Cooking Methods",
+                description: "Let time work its magic with slow cooking techniques. From tender braises to hearty stews, learn how to create deep, complex flavors with patience and care.",
+                recipes: [
+                    { name: "Beef Stew", image: "methods/slow-cooking/beef-stew.jpg" },
+                    { name: "Pulled Pork", image: "methods/slow-cooking/pulled-pork.jpg" },
+                    { name: "Pot Roast", image: "methods/slow-cooking/pot-roast.jpg" },
+                    { name: "Chicken Curry", image: "methods/slow-cooking/chicken-curry.jpg" },
+                    { name: "Beef Brisket", image: "methods/slow-cooking/brisket.jpg" }
+                ]
+            },
+            frying: {
+                name: "Frying",
+                title: "Frying Methods",
+                description: "Perfect the art of frying with our comprehensive guide. From crispy fried chicken to tempura, learn the techniques for achieving that perfect golden crunch.",
+                recipes: [
+                    { name: "Fried Chicken", image: "methods/frying/fried-chicken.jpg" },
+                    { name: "Tempura", image: "methods/frying/tempura.jpg" },
+                    { name: "French Fries", image: "methods/frying/french-fries.jpg" },
+                    { name: "Fish & Chips", image: "methods/frying/fish-chips.jpg" },
+                    { name: "Spring Rolls", image: "methods/frying/spring-rolls.jpg" }
+                ]
+            },
+            steaming: {
+                name: "Steaming",
+                title: "Steaming Methods",
+                description: "Discover the healthy and delicate art of steaming. From dim sum to vegetables, learn how to preserve nutrients and create light, flavorful dishes.",
+                recipes: [
+                    { name: "Steamed Fish", image: "methods/steaming/fish.jpg" },
+                    { name: "Dim Sum", image: "methods/steaming/dim-sum.jpg" },
+                    { name: "Steamed Vegetables", image: "methods/steaming/vegetables.jpg" },
+                    { name: "Steamed Buns", image: "methods/steaming/buns.jpg" },
+                    { name: "Steamed Rice", image: "methods/steaming/rice.jpg" }
+                ]
+            }
+        };
+
+        // Function to get URL parameters
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        // Function to update page content
+        function updatePageContent() {
+            const method = getUrlParameter('method') || 'baking';
+            const data = categoryData[method];
+
+            // Update page title
+            document.title = `${data.title} - Cooking Space`;
+
+            // Update navigation and title
+            document.getElementById('category-name').textContent = data.name;
+            document.getElementById('category-title').textContent = data.title;
+            document.getElementById('category-description').textContent = data.description;
+
+            // Update recipe cards
+            const recipeContainer = document.getElementById('recipe-container');
+            recipeContainer.innerHTML = data.recipes.map(recipe => `
+                <div style="width: 350px; text-align: center;">
+                    <div style="
+                        background-color: #FFFFFF;
+                        width: 100%;
+                        height: 350px;
+                        border-radius: 15px;
+                        margin-bottom: 10px;
+                        background-image: url('${recipe.image}');
+                        background-size: cover;
+                        background-position: center;">
+                    </div>
+                    <div style="
+                        font-family: 'Source Serif 4', serif;
+                        color: #55D282;
+                        font-size: 30px;">
+                        ${recipe.name}
+                    </div>
+                </div>
+            `).join('');
+
+            // Update active category link
+            document.querySelectorAll('.category-link').forEach(link => {
+                link.style.color = link.href.includes(method) ? '#55D282' : '#E4E1CF';
+            });
+        }
+
+        // Initialize page content
+        document.addEventListener('DOMContentLoaded', function() {
+            updatePageContent();
+
+            // Search dropdown functionality
+            const searchInput = document.getElementById('searchInput');
+            const searchIcon = document.getElementById('searchIcon');
+            const searchDropdown = document.getElementById('searchDropdown');
+            const searchResults = searchDropdown.querySelector('.search-results');
+
+            function toggleSearchDropdown(show) {
+                const hasInput = searchInput.value.trim().length > 0;
+                if (show && hasInput) {
+                    searchDropdown.classList.add('active');
+                    updateDropdownState();
+                } else {
+                    searchDropdown.classList.remove('active');
+                }
+            }
+
+            function updateDropdownState() {
+                const hasInput = searchInput.value.trim().length > 0;
+                searchDropdown.classList.toggle('expanded', hasInput);
+                
+                if (hasInput) {
+                    while (searchResults.firstChild) {
+                        searchResults.removeChild(searchResults.firstChild);
+                    }
+                }
+            }
+
+            searchInput.addEventListener('input', () => {
+                toggleSearchDropdown(true);
+            });
+
+            document.addEventListener('click', (e) => {
+                const searchContainer = e.target.closest('.search-container');
+                if (!searchContainer) {
+                    toggleSearchDropdown(false);
+                }
+            });
+
+            searchDropdown.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    toggleSearchDropdown(false);
+                    searchInput.blur();
+                }
+            });
+
+            // Show/hide back to top button based on scroll position
+            window.addEventListener('scroll', function() {
+                const backToTop = document.querySelector('.back-to-top');
+                if (window.pageYOffset > 300) {
+                    backToTop.style.opacity = '0.8';
+                    backToTop.style.visibility = 'visible';
+                } else {
+                    backToTop.style.opacity = '0';
+                    backToTop.style.visibility = 'hidden';
+                }
+            });
+        });
+    </script>
+
+    
+    <script>
+        // Function to load and display cooking method data
+        function loadCookingMethodData() {
+            // Get the selected cooking method from localStorage
+            const selectedMethod = localStorage.getItem('selectedCookingMethod');
+            const selectedRecipeId = localStorage.getItem('selectedRecipeId');
+            const selectedCategory = localStorage.getItem('selectedCategory');
+
+            // Update the page title and description based on the selected method
+            const categoryName = document.getElementById('category-name');
+            const categoryTitle = document.getElementById('category-title');
+            const categoryDescription = document.getElementById('category-description');
+
+            if (selectedMethod) {
+                // Update the navigation breadcrumb
+                categoryName.textContent = selectedMethod.charAt(0).toUpperCase() + selectedMethod.slice(1);
+                categoryTitle.textContent = selectedMethod.charAt(0).toUpperCase() + selectedMethod.slice(1);
+                
+                // Set description based on the cooking method
+                const descriptions = {
+                    'baking': 'Discover delicious baking recipes and techniques for perfect pastries, breads, and desserts.',
+                    'grilling': 'Learn the art of grilling with our collection of mouthwatering recipes and tips.',
+                    'frying': 'Explore various frying techniques and recipes for crispy, golden results.',
+                    'steaming': 'Healthy and nutritious recipes using the steaming cooking method.',
+                    'roasting': 'Master the art of roasting with our collection of flavorful recipes.'
+                };
+
+                categoryDescription.textContent = descriptions[selectedMethod] || 'Explore our collection of recipes using this cooking method.';
+            }
+
+            // If a specific recipe was selected, load its details
+            if (selectedRecipeId) {
+                loadRecipeDetails(selectedRecipeId);
+            }
+
+            // If a category was selected, filter recipes accordingly
+            if (selectedCategory) {
+                filterRecipesByCategory(selectedCategory);
+            }
+        }
+
+        // Function to load recipe details
+        function loadRecipeDetails(recipeId) {
+            // Here you would typically make an API call to get recipe details
+            // For now, we'll just scroll to the recipe section
+            const recipeSection = document.getElementById('recipe-section');
+            if (recipeSection) {
+                recipeSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Function to filter recipes by category
+        function filterRecipesByCategory(category) {
+            const recipeGrid = document.querySelector('.recipe-grid');
+            if (recipeGrid) {
+                const recipes = recipeGrid.querySelectorAll('.recipe-card');
+                recipes.forEach(recipe => {
+                    const recipeCategory = recipe.getAttribute('data-category');
+                    if (recipeCategory === category) {
+                        recipe.style.display = 'block';
+                    } else {
+                        recipe.style.display = 'none';
+                    }
+                });
+            }
+        }
+
+        // Load data when the page is loaded
+        document.addEventListener('DOMContentLoaded', loadCookingMethodData);
+    </script>
+
+</body>
+</html> 

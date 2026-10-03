@@ -1,0 +1,331 @@
+/* Common Footer Link Styles */
+.footer-link {
+    color: #E4E1CF;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+}
+
+.footer-link:hover {
+    opacity: 0.8;
+}
+
+/* Logo Hover Effects */
+.logo-hover {
+    transition: all 0.3s ease;
+}
+
+.logo-hover:hover {
+    transform: scale(1.1);
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.7)) brightness(1.2) !important;
+}
+
+/* Search Container Styles */
+.search-container {
+    position: relative;
+}
+
+.search-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 200px;
+    background-color: #E4E1CF;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-top: 5px;
+    z-index: 1000;
+    padding: 15px;
+    transition: width 0.3s ease, transform 0.2s ease, opacity 0.2s ease;
+    transform-origin: right top;
+    opacity: 0;
+    transform: scale(0.95);
+}
+
+.search-dropdown.active {
+    display: block;
+    animation: dropdownAppear 0.2s ease forwards;
+}
+
+@keyframes dropdownAppear {
+    0% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.search-dropdown.expanded {
+    width: 350px;
+}
+
+.search-results {
+    background-color: #E4E1CF;
+    border-radius: 8px;
+    padding: 15px;
+    color: #333;
+    min-height: 50px;
+    max-height: 400px;
+    overflow-y: auto;
+    font-family: 'Source Serif 4', serif;
+    font-size: 16px;
+    opacity: 0;
+    transform: translateY(-10px);
+    animation: resultsAppear 0.3s ease 0.1s forwards;
+}
+
+@keyframes resultsAppear {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.search-input-wrapper {
+    position: relative;
+}
+
+/* Navigation Bar */
+.nav-bar {
+    background-color: #464530;
+    height: 120px;
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    justify-content: space-between;
+}
+
+/* Secondary Bar */
+.secondary-bar {
+    background-color: #565435;
+    height: 230px;
+    width: 100vw;
+    position: absolute;
+    display: flex;
+    top: 120px;
+    left: 0;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Main Content Area */
+.main-content {
+    min-height: calc(100vh - 120px - 230px);
+    padding: 280px 80px 40px 80px;
+}
+
+/* Profile Section */
+.profile-section {
+    display: flex;
+    gap: 40px;
+}
+
+/* Profile Info */
+.profile-info {
+    flex: 1;
+    background-color: #E4E1CF;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 15px;
+}
+
+.profile-name {
+    font-family: 'Source Serif 4', serif;
+    color: #464530;
+    margin: 0;
+}
+
+.profile-date {
+    font-family: 'Source Serif 4', serif;
+    color: #565435;
+    margin: 5px 0;
+}
+
+.profile-stats {
+    border-top: 2px solid #565435;
+    padding-top: 20px;
+}
+
+.stats-title {
+    font-family: 'Source Serif 4', serif;
+    color: #464530;
+    margin-bottom: 15px;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.stat-label {
+    font-family: 'Source Serif 4', serif;
+    color: #565435;
+}
+
+.stat-value {
+    font-family: 'Source Serif 4', serif;
+    color: #464530;
+    font-weight: bold;
+}
+
+/* Recipe History */
+.recipe-history {
+    flex: 2;
+    background-color: #E4E1CF;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.history-title {
+    font-family: 'Source Serif 4', serif;
+    color: #464530;
+    margin-bottom: 25px;
+}
+
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.recipe-item {
+    display: flex;
+    gap: 20px;
+    padding: 15px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.recipe-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.recipe-details {
+    flex: 1;
+}
+
+.recipe-name {
+    font-family: 'Source Serif 4', serif;
+    color: #464530;
+    margin: 0 0 5px 0;
+}
+
+.recipe-date {
+    font-family: 'Source Serif 4', serif;
+    color: #565435;
+    margin: 0 0 10px 0;
+}
+
+.recipe-meta {
+    display: flex;
+    gap: 10px;
+}
+
+.meta-item {
+    font-family: 'Source Serif 4', serif;
+    color: #565435;
+    font-size: 14px;
+}
+
+/* Footer */
+.footer {
+    background-color: #565435;
+    width: 100vw;
+    height: 300px;
+    margin-top: 50px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    justify-content: space-between;
+    box-sizing: border-box;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.footer-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer-links {
+    font-family: 'Source Serif 4', serif;
+    color: #E4E1CF;
+    position: absolute;
+    font-size: 25px;
+    margin-left: 25%;
+    display: flex;
+    align-items: center;
+    gap: 130px;
+    margin-top: -150px;
+}
+
+/* Copyright Bar */
+.copyright-bar {
+    background-color: #E4E1CF;
+    height: 60px;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Source Serif 4', serif;
+    color: #141414;
+    font-size: 18px;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 999;
+}
+
+/* Back to Top Button */
+.back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #55D282;
+    color: #E4E1CF;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.back-to-top:hover {
+    background-color: #464530;
+    transform: translateY(-3px);
+} 

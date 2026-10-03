@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cooking Space</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;700&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles/main.css">
+    <style>
+        .footer-link {
+            color: #E4E1CF;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .footer-link:hover {
+            opacity: 0.8;
+        }
+
+        .logo-hover {
+            transition: all 0.3s ease;
+        }
+
+        .logo-hover:hover {
+            transform: scale(1.1);
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.7)) brightness(1.2) !important;
+        }
+
+        
+        .search-container {
+            position: relative;
+        }
+
+        .search-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 200px;
+            background-color: #E4E1CF;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-top: 5px;
+            z-index: 1000;
+            padding: 15px;
+            transition: width 0.3s ease, transform 0.2s ease, opacity 0.2s ease;
+            transform-origin: right top;
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        .search-dropdown.active {
+            display: block;
+            animation: dropdownAppear 0.2s ease forwards;
+        }
+
+        @keyframes dropdownAppear {
+            0% {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .search-dropdown.expanded {
+            width: 350px;
+        }
+
+        .search-results {
+            background-color: #E4E1CF;
+            border-radius: 8px;
+            padding: 15px;
+            color: #333;
+            min-height: 50px;
+            max-height: 400px;
+            overflow-y: auto;
+            font-family: 'Source Serif 4', serif;
+            font-size: 16px;
+            opacity: 0;
+            transform: translateY(-10px);
+            animation: resultsAppear 0.3s ease 0.1s forwards;
+        }
+
+        @keyframes resultsAppear {
+            0% {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .search-input-wrapper {
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+
+    
+    <div style="background-color: #464530; height: 120px; width: 100%; position: relative; display: flex; align-items: center; padding: 0 20px; justify-content: space-between;">
+
+        
+        <div style="
+            background-color: #565435;
+            height: 230px; 
+            width: 100vw; 
+            position: absolute;
+            display: flex;
+            top: 120px;
+            left: 0; 
+            align-items: center;
+            justify-content: space-between;">
+
+            
+            <div style="padding-left: 90px; padding-top: 20px;">
+                <p style="
+                    display: flex;
+                    font-family: 'Source Serif 4', serif;
+                    color: #E4E1CF;
+                    font-size: 30px;
+                    margin: 0; 
+                    ">
+                    Home > Index
+                </p>
+                <p class="zcool-font" style="
+                    display: flex;
+                    color: #55D282;
+                    font-size: 50px;
+                    font-style: italic;
+                    font-weight: bold;
+                    margin: 0; 
+                    ">
+                    Recipe Index
+                </p>
+                <p style="
+                    display: flex;
+                    font-family: 'Source Serif 4', serif;
+                    color:#E4E1CF;
+                    font-size: 20px;
+                    margin: 0;
+                    margin-top: 5px;">
+                    Welcome to the Recipe page. Please browse the recipes through the category tiles below.
+                </p>
+            </div>
+
+            
+            <div class="placeholder-image">
+                Picture Here
+            </div>
+
+        </div>
+
+        
+        <div style="display: flex; align-items: center;">
+            <img src="Icons/Logo.png" class="logo-hover" style="
+            height: 280px;
+            margin-left: 30px;
+            margin-top: 80px;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.7));">
+
+            <img src="Icons/Cooking Space.png" class="logo-hover" style="
+            height: 200px;
+            margin-top: 30px;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.7));">
+        </div>
+
+        
+        <div style="
+            display: flex;
+            gap: 50px;
+            font-family: 'Source Serif 4', serif;
+            font-size: 20px; 
+            color: #E4E1CF;
+            margin-right: 20px; 
+            align-items: center;
+            ">
+            
+            
+            <div style="display: flex; align-items: center;">
+                <select id="recipes" name="recipes">
+                    <option value="recipe1">Recipes</option>
+                    <option value="recipe2">Recipe 1</option>
+                    <option value="recipe3">Recipe 1</option>
+                </select>
+                <select id="ingredients" name="ingredients">
+                    <option value="ingredient1">Ingredients</option>
+                    <option value="ingredient2">Ingredient 1</option>
+                    <option value="ingredient3">Ingredient 2</option>
+                </select>
+                <select id="cookingTips" name="cookingTips">
+                    <option value="tip1">Cooking Tips</option>
+                    <option value="tip2">Tip 1</option>
+                    <option value="tip3">Tip 2</option>
+                </select>
+            </div>
+
+            
+            <div class="search-container">
+                <div class="search-input-wrapper">
+                    <input type="text" placeholder="Search..." id="searchInput" style="
+                        padding: 10px 40px 10px 15px;
+                        border: none;
+                        border-radius: 20px;
+                        font-size: 16px;
+                        font-family: 'Source Serif 4', serif;
+                        background-color: #E4E1CF;
+                        color: #333;
+                        width: 200px;
+                        outline: none;
+                        cursor: text;">
+                    
+                    <img src="Icons/search-icon.png" id="searchIcon" style="
+                        position: absolute;
+                        right: 15px;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        height: 18px;
+                        cursor: pointer;">
+                </div>
+
+                
+                <div class="search-dropdown" id="searchDropdown">
+                    <div class="search-results">
+                    </div>
+                </div>
+            </div>
+
+            
+            <button class="login-btn" onclick="window.location.href='login.html'">
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiM0NjQ1MzAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMjAgMjF2LTJhNCA0IDAgMCAwLTQtNEg4YTQgNCAwIDAgMC00IDR2MiI+PC9wYXRoPjxjaXJjbGUgY3g9IjEyIiBjeT0iNyIgcj0iNCIgLz48L3N2Zz4=" alt="User icon" style="width: 24px; height: 24px; filter: brightness(0.2);">
+                Login
+            </button>
+        </div>
+    </div>
+
+    
+    <div style="
+        background-color: #464530;
+        border-radius: 50px; 
+        height: 400px; 
+        width: 96%; 
+        margin: 20px auto; 
+        margin-top: 280px; 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        display: flex; 
+        ">
+
+
+        
+        <div style="
+            background-color: #52593C;
+            width: 70%; 
+            border-radius: 50px 0 0 50px; 
+            padding: 20px; 
+            ">
+
+            
+            <div style="
+                display: inline-flex;
+                gap: 20px; 
+                ">
+                
+                <div class="blank-image category-image-container">
+                    <img src="images/recipes/breakfast.jpg" alt="Delicious breakfast spread" class="recipe-image">
+                    <div class="category-image-overlay">Start your day with our breakfast recipes</div>
+                </div>
+                
+                <div class="blank-image category-image-container">
+                    <img src="images/recipes/lunch.jpg" alt="Fresh lunch dishes" class="recipe-image">
+                    <div class="category-image-overlay">Quick and satisfying lunch ideas</div>
+                </div>
+                
+                <div class="blank-image category-image-container">
+                    <img src="images/recipes/dinner.jpg" alt="Elegant dinner plate" class="recipe-image">
+                    <div class="category-image-overlay">Hearty dinner recipes for the family</div>
+                </div>
+                
+                <div class="blank-image category-image-container">
+                    <img src="images/recipes/dessert.jpg" alt="Sweet desserts" class="recipe-image">
+                    <div class="category-image-overlay">Indulgent dessert creations</div>
+                </div>
+                
+                <div class="blank-image category-image-container">
+                    <img src="images/recipes/snacks.jpg" alt="Healthy snacks" class="recipe-image">
+                    <div class="category-image-overlay">Quick and easy snack ideas</div>
+                </div>
+            </div>
+
+            
+            <div style="
+                display: flex;
+                justify-content: space-between;
+                font-family: 'Source Serif 4', serif;
+                color:#55D282;
+                font-size: 30px;
+                margin-top: 10px;
+                margin-left: 90px;
+                margin-right: 90px;
+                ">
+                <div>Breakfast</div>
+                <div>Lunch</div>
+                <div>Dinner</div>
+                <div>Dessert</div>
+                <div>Snacks</div>
+            </div>
+
+        </div>
+        
+        <div class="zcool-font" style="
+        display: flex;
+        color: #55D282;
+        font-size: 70px;
+        font-style: italic;
+        font-weight: bold;
+        padding: 2%;
+        ">
+        Course
+
+            <div style="font-family: 'Source Serif 4', serif;
+            font-size: 20px;
+            font-style: normal;
+            font-weight: lighter;
+            color: #E4E1CF;
+            position: absolute;
+            padding-top: 80px;
+            margin-right: 90px;
+            text-align: justify;
+            "> Every meal is an opportunity to savor delicious flavors and nourish the soul. Our Course category is designed to guide you through a variety of recipes tailored for every moment of the day. Whether you're looking for a hearty breakfast to start your morning, a satisfying lunch to fuel your afternoon, or a comforting dinner to end your day, we have something for every craving. Indulge in delightful desserts for a sweet treat, or whip up snacks for those in-between moments.
+
+        </div>
+
+    </div>
+
+    <div style="
+        background-color: #464530;
+        border-radius: 50px; 
+        height: 400px; 
+        width: 96%; 
+        margin: 20px auto; 
+        margin-top: 450px; 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        display: flex; 
+        position: absolute;
+        ">
+
+        <div style="
+            background-color: #52593C;
+            width: 70%; 
+            border-radius: 0px 50px 50px 0px; 
+            padding: 20px; 
+            border--width: 20px;
+            position: absolute;
+            right: 0;
+            height: 400px;
+            ">
+
+            <div style="
+                display: inline-flex;
+                gap: 20px; 
+                ">
+                
+                <div class="blank-image category-image-container">
+                    <img src="images/recipes/italian.jpg" alt="Italian cuisine" class="recipe-image">
+                    <div class="category-image-overlay">Authentic Italian recipes</div>
+                </div>
+                
+                <div class="blank-image category-image-container">
+                    <img src="images/recipes/mexican.jpg" alt="Mexican dishes" class="recipe-image">
+                    <div class="category-image-overlay">Flavorful Mexican dishes</div>
+                </div>
+                
+                <div class="blank-image category-image-container">
+                    <img src="images/recipes/asian.jpg" alt="Asian cuisine" class="recipe-image">
+                    <div class="category-image-overlay">Traditional Asian recipes</div>
+                </div>
+                
+                <div class="blank-image category-image-container">
+                    <img src="images/recipes/mediterranean.jpg" alt="Mediterranean food" class="recipe-image">
+                    <div class="category-image-overlay">Fresh Mediterranean meals</div>
+                </div>
+                
+                <div class="blank-image category-image-container">
+                    <img src="images/recipes/american.jpg" alt="American classics" class="recipe-image">
+                    <div class="category-image-overlay">Classic American comfort food</div>
+                </div>
+            </div>
+
+            
+            <div style="
+                display: flex;
+                justify-content: space-between;
+                font-family: 'Source Serif 4', serif;
+                color: #55D282;
+                font-size: 30px;
+                margin-top: 10px;
+                width: 100%; 
+                ">
+                <div style="width: 278px; text-align: center;">Italian</div>
+                <div style="width: 278px; text-align: center;">Mexican</div>
+                <div style="width: 278px; text-align: center;">Asian</div>
+                <div style="width: 278px; text-align: center;">Mediterranean</div>
+                <div style="width: 278px; text-align: center;">American</div>
+            </div>
+
+        </div>
+
+        <div class="zcool-font" style="
+        display: flex;
+        color: #55D282;
+        font-size: 70px;
+        font-style: italic;
+        font-weight: bold;
+        padding: 2%;
+        ">
+        Cuisine
+
+            <div style="font-family: 'Source Serif 4', serif;
+            font-size: 20px;
+            font-style: normal;
+            font-weight: lighter;
+            color: #E4E1CF;
+            position: absolute;
+            padding-top: 80px;
+            margin-right: 1645px;
+            text-align: justify;
+            "> Food is a journey, and our Cuisine category takes you across the globe with authentic and inspiring recipes. From the rich and hearty flavors of Italian cuisine to the bold and spicy delights of Mexican dishes, every bite tells a story. Experience the diverse and aromatic traditions of Asian cooking, savor the fresh and wholesome essence of the Mediterranean, or indulge in the comforting classics of American cuisine.
+
+        </div>
+
+    </div>
+
+    <div style="
+        background-color: #464530;
+        border-radius: 50px; 
+        height: 400px; 
+        width: 100%; 
+        margin: 20px auto; 
+        margin-top: 445px; 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        display: flex; 
+        position: absolute;
+        ">
+
+        <div style="
+            background-color: #52593C;
+            width: 70%; 
+            border-radius: 50px 0 0 50px; 
+            padding: 20px; 
+            ">
+
+            <div style="
+                display: inline-flex;
+                gap: 20px; 
+                ">
+                
+                <div class="blank-image category-image-container dietary-card" data-category="vegetarian">
+                    <img src="images/recipes/vegetarian.jpg" alt="Vegetarian dishes" class="recipe-image">
+                    <div class="category-image-overlay">Delicious vegetarian meals</div>
+                </div>
+                
+                <div class="blank-image category-image-container dietary-card" data-category="vegan">
+                    <img src="images/recipes/vegan.jpg" alt="Vegan recipes" class="recipe-image">
+                    <div class="category-image-overlay">Creative vegan recipes</div>
+                </div>
+                
+                <div class="blank-image category-image-container dietary-card" data-category="gluten-free">
+                    <img src="images/recipes/gluten-free.jpg" alt="Gluten-free options" class="recipe-image">
+                    <div class="category-image-overlay">Tasty gluten-free alternatives</div>
+                </div>
+                
+                <div class="blank-image category-image-container dietary-card" data-category="low-carb">
+                    <img src="images/recipes/low-carb.jpg" alt="Low carb meals" class="recipe-image">
+                    <div class="category-image-overlay">Satisfying low-carb options</div>
+                </div>
+                
+                <div class="blank-image category-image-container dietary-card" data-category="keto">
+                    <img src="images/recipes/keto.jpg" alt="Keto-friendly dishes" class="recipe-image">
+                    <div class="category-image-overlay">Keto-friendly meal ideas</div>
+                </div>
+            </div>
+
+            
+            <div style="
+                display: flex;
+                justify-content: space-between;
+                font-family: 'Source Serif 4', serif;
+                color:#55D282;
+                font-size: 30px;
+                margin-top: 10px;
+                width: 100%;
+                ">
+                <div style="width: 278px; text-align: center;">Vegetarian</div>
+                <div style="width: 278px; text-align: center;">Vegan</div>
+                <div style="width: 278px; text-align: center;">Gluten-Free</div>
+                <div style="width: 278px; text-align: center;">Low Carb</div>
+                <div style="width: 278px; text-align: center;">Keto</div>
+            </div>
+
+        </div>
+
+        <div class="zcool-font" style="
+        display: flex;
+        color: #55D282;
+        font-size: 70px;
+        font-style: italic;
+        font-weight: bold;
+        padding: 2%;
+        ">
+        Dietary Needs
+
+            <div style="font-family: 'Source Serif 4', serif;
+            font-size: 20px;
+            font-style: normal;
+            font-weight: lighter;
+            color: #E4E1CF;
+            position: absolute;
+            padding-top: 80px;
+            margin-right: 90px;
+            text-align: justify;
+            "> Eating well should never mean compromising on flavor. Our Dietary Needs category offers a variety of carefully crafted recipes to suit your lifestyle and health goals. Whether you follow a vegetarian or vegan diet, need gluten-free options, or prefer low-carb and keto meals, we have something for you. Every dish is designed to be both nutritious and satisfying, making it easy to enjoy great food while staying true to your dietary preferences.
+        </div>
+
+    </div>
+
+    <div style="
+        background-color: #464530;
+        border-radius: 50px; 
+        height: 400px; 
+        width: 100%; 
+        margin: 20px auto; 
+        margin-top: 450px; 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        display: flex; 
+        position: absolute;
+        ">
+
+        <div style="
+            background-color: #52593C;
+            width: 70%; 
+            border-radius: 0px 50px 50px 0px; 
+            padding: 20px; 
+            border--width: 20px;
+            position: absolute;
+            right: 0;
+            height: 400px;
+            margin-left: 200px;
+            ">
+
+            <div style="
+                display: inline-flex;
+                gap: 20px; 
+                ">
+                
+                <div class="blank-image category-image-container" data-method="baking" onclick="navigateToCookingMethod('baking')">
+                    <img src="images/recipes/baking.jpg" alt="Baked goods" class="recipe-image">
+                    <div class="category-image-overlay">Perfect baking recipes</div>
+                </div>
+                
+                <div class="blank-image category-image-container" data-method="grilling" onclick="navigateToCookingMethod('grilling')">
+                    <img src="images/recipes/grilling.jpg" alt="Grilled dishes" class="recipe-image">
+                    <div class="category-image-overlay">Delicious grilled favorites</div>
+                </div>
+                
+                <div class="blank-image category-image-container" data-method="slow-cooking" onclick="navigateToCookingMethod('slow-cooking')">
+                    <img src="images/recipes/slow-cooking.jpg" alt="Slow-cooked meals" class="recipe-image">
+                    <div class="category-image-overlay">Tender slow-cooked dishes</div>
+                </div>
+                
+                <div class="blank-image category-image-container" data-method="frying" onclick="navigateToCookingMethod('frying')">
+                    <img src="images/recipes/frying.jpg" alt="Fried dishes" class="recipe-image">
+                    <div class="category-image-overlay">Crispy fried creations</div>
+                </div>
+                
+                <div class="blank-image category-image-container" data-method="steaming" onclick="navigateToCookingMethod('steaming')">
+                    <img src="images/recipes/steaming.jpg" alt="Steamed dishes" class="recipe-image">
+                    <div class="category-image-overlay">Healthy steamed recipes</div>
+                </div>
+            </div>
+
+            
+            <div style="
+                display: flex;
+                justify-content: space-between;
+                font-family: 'Source Serif 4', serif;
+                color: #55D282;
+                font-size: 30px;
+                margin-top: 10px;
+                width: 100%; 
+                ">
+                <div style="width: 278px; text-align: center;">Baking</div>
+                <div style="width: 278px; text-align: center;">Grilling</div>
+                <div style="width: 278px; text-align: center;">Slow Cooking</div>
+                <div style="width: 278px; text-align: center;">Frying</div>
+                <div style="width: 278px; text-align: center;">Steaming</div>
+            </div>
+
+        </div>
+
+        <div class="zcool-font" style="
+        display: flex;
+        color: #55D282;
+        font-size: 70px;
+        font-style: italic;
+        font-weight: bold;
+        padding: 2%;
+        ">
+        Cooking Method
+
+            <div style="font-family: 'Source Serif 4', serif;
+            font-size: 20px;
+            font-style: normal;
+            font-weight: lighter;
+            color: #E4E1CF;
+            position: absolute;
+            padding-top: 80px;
+            margin-right: 1645px;
+            text-align: justify;
+            "> The way food is prepared can transform its flavor, texture, and aroma. Our Cooking Method category helps you explore different techniques to create delicious meals with ease. Whether you're perfecting the art of baking for golden, flaky treats, grilling for smoky, charred goodness, slow cooking for rich and tender flavors, frying for crispy delights, or steaming for light and healthy dishes, we have recipes to match every method.
+
+        </div>
+
+    </div>
+    <div style="
+    background-color: #464530;
+    border-radius: 50px; 
+    height: 400px; 
+    width: 100%; 
+    margin: 20px auto; 
+    margin-top: 445px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex; 
+    position: absolute;
+    ">
+
+    <div style="
+        background-color: #52593C;
+        width: 70%; 
+        border-radius: 50px 0 0 50px; 
+        padding: 20px; 
+        ">
+
+        <div style="
+            display: inline-flex;
+            gap: 20px; 
+            ">
+            
+            <div class="blank-image2 category-image-container" data-occasion="holiday" onclick="navigateToOccasion('holiday')">
+                <img src="images/recipes/holiday.jpg" alt="Holiday recipes" class="recipe-image">
+                <div class="category-image-overlay">Special holiday dishes</div>
+            </div>
+            
+            <div class="blank-image2 category-image-container" data-occasion="party" onclick="navigateToOccasion('party')">
+                <img src="images/recipes/party.jpg" alt="Party food" class="recipe-image">
+                <div class="category-image-overlay">Perfect party appetizers</div>
+            </div>
+            
+            <div class="blank-image2 category-image-container" data-occasion="midnight" onclick="navigateToOccasion('midnight')">
+                <img src="images/recipes/midnight-snacks.jpg" alt="Midnight snacks" class="recipe-image">
+                <div class="category-image-overlay">Quick midnight cravings</div>
+            </div>
+            
+            <div class="blank-image2 category-image-container" data-occasion="mealprep" onclick="navigateToOccasion('mealprep')">
+                <img src="images/recipes/meal-prep.jpg" alt="Meal prep ideas" class="recipe-image">
+                <div class="category-image-overlay">Efficient meal prep solutions</div>
+            </div>
+        </div>
+
+        
+        <div style="
+            display: flex;
+            justify-content: space-between;
+            font-family: 'Source Serif 4', serif;
+            color:#55D282;
+            font-size: 30px;
+            margin-top: 10px;
+            margin-left: 55px;
+            margin-right: 40px;
+            ">
+            <div style="width: 278px; text-align: center;">Holiday</div>
+            <div style="width: 278px; text-align: center;">Party</div>
+            <div style="width: 278px; text-align: center;">Midnight Snacks</div>
+            <div style="width: 278px; text-align: center;">Meal Prep</div>
+        </div>
+
+    </div>
+
+    <div class="zcool-font" style="
+    display: flex;
+    color: #55D282;
+    font-size: 70px;
+    font-style: italic;
+    font-weight: bold;
+    padding: 2%;
+    ">
+    Occasion
+
+        <div style="font-family: 'Source Serif 4', serif;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: lighter;
+        color: #E4E1CF;
+        position: absolute;
+        padding-top: 80px;
+        margin-right: 90px;
+        text-align: justify;
+        "> Great food makes every moment special! Whether you're celebrating a festive holiday, hosting a lively party, craving a quick midnight snack, or planning ahead with meal prep, we have the perfect recipes for every occasion. From indulgent treats to time-saving meals, our collection ensures that no matter the moment, you'll have something delicious to enjoy.
+    </div>
+
+</div>
+
+<div style="
+    background-color: #565435;
+    width: 100vw; 
+    height: 300px;
+    margin-top: 500px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    justify-content: space-between;
+    box-sizing: border-box; 
+    position: absolute; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    ">
+
+    <div style="display: flex; flex-direction: column; align-items: center;">
+        <img src="Icons/Logo.png" style="
+        height: 350px;
+        margin-top: -170px; 
+        filter: drop-shadow(2px 2px 4px rgba(255, 255, 255, 0.7));">
+        
+        <img src="Icons/Cooking Space.png" style="
+        height: 150px;
+        margin-top: -110px; 
+        margin-left: 50px;
+        filter: drop-shadow(2px 2px 4px rgba(255, 255, 255, 0.7));">
+    </div>
+
+    <div style="font-family: 'Source Serif 4', serif;
+        color: #E4E1CF;
+        position: absolute;
+        font-size: 25px;
+        margin-left: 25%;
+        display: flex;
+        align-items: center;
+        gap: 130px;
+        margin-top: -150px;">
+        <a href="#" class="footer-link">Recipe Categories</a>
+        <a href="#" class="footer-link">Ingredients Categories</a>
+        <a href="#" class="footer-link">Cooking Tips</a>
+        <a href="#" class="footer-link">Follow Us</a>
+        <a href="#" class="footer-link">Contact Us</a>
+        <a href="#" class="footer-link">About Us</a>
+    </div>
+
+</div>
+
+</div>
+
+
+<a href="#" class="back-to-top" title="Back to Top"></a>
+
+<div style="
+    background-color: #E4E1CF;
+    height: 60px;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Source Serif 4', serif;
+    color: #141414;
+    font-size: 18px;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 999;
+">
+    &copy; 2023 Cooking Space. All rights reserved.
+</div>
+
+<script>
+// Add smooth scrolling for the back to top button
+document.querySelector('.back-to-top').addEventListener('click', function(e) {
+    e.preventDefault();
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+});
+
+// Show/hide back to top button based on scroll position
+window.addEventListener('scroll', function() {
+    const backToTop = document.querySelector('.back-to-top');
+    if (window.pageYOffset > 300) {
+        backToTop.style.opacity = '0.8';
+        backToTop.style.visibility = 'visible';
+    } else {
+        backToTop.style.opacity = '0';
+        backToTop.style.visibility = 'hidden';
+    }
+});
+
+// Search dropdown functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const searchIcon = document.getElementById('searchIcon');
+    const searchDropdown = document.getElementById('searchDropdown');
+    const searchResults = searchDropdown.querySelector('.search-results');
+
+    function toggleSearchDropdown(show) {
+        const hasInput = searchInput.value.trim().length > 0;
+        if (show && hasInput) {
+            searchDropdown.classList.add('active');
+            updateDropdownState();
+        } else {
+            searchDropdown.classList.remove('active');
+        }
+    }
+
+    function updateDropdownState() {
+        const hasInput = searchInput.value.trim().length > 0;
+        searchDropdown.classList.toggle('expanded', hasInput);
+        
+        // Here you would typically add your search logic and display results
+        if (hasInput) {
+            // For now, we'll just clear the results area
+            while (searchResults.firstChild) {
+                searchResults.removeChild(searchResults.firstChild);
+            }
+        }
+    }
+
+    // Show dropdown only when typing
+    searchInput.addEventListener('input', () => {
+        toggleSearchDropdown(true);
+    });
+
+    // Handle clicks outside the search container
+    document.addEventListener('click', (e) => {
+        const searchContainer = e.target.closest('.search-container');
+        if (!searchContainer) {
+            toggleSearchDropdown(false);
+        }
+    });
+
+    // Prevent dropdown from closing when clicking inside it
+    searchDropdown.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+
+    // Optional: Close dropdown when pressing Escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            toggleSearchDropdown(false);
+            searchInput.blur();
+        }
+    });
+});
+
+// Function to handle category navigation
+function navigateToCategory(category) {
+    window.location.href = `course.html?category=${category}`;
+}
+
+function navigateToCuisine(cuisine) {
+    window.location.href = `cuisine.html?cuisine=${cuisine}`;
+}
+
+// Add click handlers to category tiles
+document.addEventListener('DOMContentLoaded', function() {
+    // Course category tiles
+    const courseTiles = document.querySelectorAll('.category-image-container');
+    courseTiles.forEach(tile => {
+        tile.addEventListener('click', function() {
+            const overlay = this.querySelector('.category-image-overlay');
+            if (overlay) {
+                const text = overlay.textContent.toLowerCase();
+                if (text.includes('breakfast')) {
+                    navigateToCategory('breakfast');
+                } else if (text.includes('lunch')) {
+                    navigateToCategory('lunch');
+                } else if (text.includes('dinner')) {
+                    navigateToCategory('dinner');
+                } else if (text.includes('dessert')) {
+                    navigateToCategory('dessert');
+                } else if (text.includes('snack')) {
+                    navigateToCategory('snacks');
+                }
+            }
+        });
+    });
+
+    // Cuisine category tiles
+    const cuisineTiles = document.querySelectorAll('.category-image-container');
+    cuisineTiles.forEach(tile => {
+        tile.addEventListener('click', function() {
+            const overlay = this.querySelector('.category-image-overlay');
+            if (overlay) {
+                const text = overlay.textContent.toLowerCase();
+                if (text.includes('italian')) {
+                    navigateToCuisine('italian');
+                } else if (text.includes('mexican')) {
+                    navigateToCuisine('mexican');
+                } else if (text.includes('asian')) {
+                    navigateToCuisine('asian');
+                } else if (text.includes('mediterranean')) {
+                    navigateToCuisine('mediterranean');
+                } else if (text.includes('american')) {
+                    navigateToCuisine('american');
+                }
+            }
+        });
+    });
+
+    // Show/hide back to top button based on scroll position
+    window.addEventListener('scroll', function() {
+        const backToTop = document.querySelector('.back-to-top');
+        if (window.pageYOffset > 300) {
+            backToTop.style.opacity = '0.8';
+            backToTop.style.visibility = 'visible';
+        } else {
+            backToTop.style.opacity = '0';
+            backToTop.style.visibility = 'hidden';
+        }
+    });
+});
+
+// Function to handle navigation to dietary needs page
+function navigateToDietaryNeeds(category) {
+    window.location.href = `dietaryNeeds.html?category=${encodeURIComponent(category)}`;
+}
+
+// Function to handle card clicks
+function handleCardClick(category) {
+    navigateToDietaryNeeds(category);
+}
+
+// Add click event listeners to dietary needs cards
+document.addEventListener('DOMContentLoaded', function() {
+    const dietaryCards = document.querySelectorAll('.dietary-card');
+    dietaryCards.forEach(card => {
+        card.addEventListener('click', function() {
+            const category = this.getAttribute('data-category');
+            handleCardClick(category);
+        });
+    });
+});
+
+// Function to handle navigation to cooking method page
+function navigateToCookingMethod(method) {
+    // Store the selected cooking method in localStorage
+    localStorage.setItem('selectedCookingMethod', method);
+    // Navigate to cooking method page
+    window.location.href = 'cookingmethod.html';
+}
+
+// Function to handle recipe card clicks
+function handleRecipeClick(recipeId, method) {
+    // Store both recipe ID and cooking method
+    localStorage.setItem('selectedRecipeId', recipeId);
+    localStorage.setItem('selectedCookingMethod', method);
+    // Navigate to cooking method page
+    window.location.href = 'cookingmethod.html';
+}
+
+// Function to handle category selection
+function handleCategorySelection(category) {
+    // Store the selected category
+    localStorage.setItem('selectedCategory', category);
+    // Navigate to cooking method page
+    window.location.href = 'cookingmethod.html';
+}
+
+// Add event listeners when the document is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Add click event listeners to recipe cards
+    const recipeCards = document.querySelectorAll('.recipe-card');
+    recipeCards.forEach(card => {
+        card.addEventListener('click', function() {
+            const recipeId = this.getAttribute('data-recipe-id');
+            const method = this.getAttribute('data-method');
+            handleRecipeClick(recipeId, method);
+        });
+    });
+
+    // Add click event listeners to category links
+    const categoryLinks = document.querySelectorAll('.category-link');
+    categoryLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const method = this.getAttribute('data-method');
+            navigateToCookingMethod(method);
+        });
+    });
+
+    // Add click event listeners to category cards
+    const categoryCards = document.querySelectorAll('.category-image-container');
+    categoryCards.forEach(card => {
+        card.addEventListener('click', function() {
+            const method = this.getAttribute('data-method');
+            if (method) {
+                navigateToCookingMethod(method);
+            }
+        });
+    });
+});
+
+// Function to navigate to occasion page
+function navigateToOccasion(occasion) {
+    window.location.href = `occasion.html?occasion=${occasion}`;
+}
+
+// Add event listeners when the document is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Add click event listeners to occasion category cards
+    const occasionCards = document.querySelectorAll('.category-image-container[data-occasion]');
+    occasionCards.forEach(card => {
+        card.addEventListener('click', function() {
+            const occasion = this.getAttribute('data-occasion');
+            if (occasion) {
+                navigateToOccasion(occasion);
+            }
+        });
+    });
+});
+</script>
+
+</body>
+</html>

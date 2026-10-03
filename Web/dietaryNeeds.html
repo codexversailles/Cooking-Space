@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cooking Space - Cuisine Category</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;700&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles/main.css">
+    <style>
+        .footer-link {
+            color: #E4E1CF;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .footer-link:hover {
+            opacity: 0.8;
+        }
+
+        .logo-hover {
+            transition: all 0.3s ease;
+        }
+
+        .logo-hover:hover {
+            transform: scale(1.1);
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.7)) brightness(1.2) !important;
+        }
+
+        
+        .search-container {
+            position: relative;
+        }
+
+        .search-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 200px;
+            background-color: #E4E1CF;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-top: 5px;
+            z-index: 1000;
+            padding: 15px;
+            transition: width 0.3s ease, transform 0.2s ease, opacity 0.2s ease;
+            transform-origin: right top;
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        .search-dropdown.active {
+            display: block;
+            animation: dropdownAppear 0.2s ease forwards;
+        }
+
+        @keyframes dropdownAppear {
+            0% {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .search-dropdown.expanded {
+            width: 350px;
+        }
+
+        .search-results {
+            background-color: #E4E1CF;
+            border-radius: 8px;
+            padding: 15px;
+            color: #333;
+            min-height: 50px;
+            max-height: 400px;
+            overflow-y: auto;
+            font-family: 'Source Serif 4', serif;
+            font-size: 16px;
+            opacity: 0;
+            transform: translateY(-10px);
+            animation: resultsAppear 0.3s ease 0.1s forwards;
+        }
+
+        @keyframes resultsAppear {
+            0% {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .search-input-wrapper {
+            position: relative;
+        }
+
+        
+        .recipe-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            padding: 20px;
+            background-color: #464530;
+            margin: 20px;
+            border-radius: 15px;
+        }
+
+        .recipe-card {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .recipe-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+
+        .recipe-title {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(85, 210, 130, 0.9);
+            color: #E4E1CF;
+            padding: 10px;
+            font-family: 'Source Serif 4', serif;
+            font-size: 18px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    
+    <div style="background-color: #464530; height: 120px; width: 100%; position: relative; display: flex; align-items: center; padding: 0 20px; justify-content: space-between;">
+        
+        <div style="
+            background-color: #565435;
+            height: 320px; 
+            width: 100vw;
+            position: absolute;
+            display: flex;
+            top: 120px;
+            left: 0;
+            align-items: center;
+            justify-content: space-between;
+            overflow: hidden;">
+
+            
+            <div style="
+                padding-left: 90px; 
+                padding-top: 20px; 
+                width: 50%; 
+                position: relative; 
+                z-index: 2;
+                background-color: #565435;
+                margin-right: 50px;">
+                <p style="
+                    display: flex;
+                    font-family: 'Source Serif 4', serif;
+                    color: #E4E1CF;
+                    font-size: 30px;
+                    margin: 0;">
+                    Home > Index > <span id="category-name">Cuisine</span>
+                </p>
+                <p class="zcool-font" style="
+                    display: flex;
+                    color: #55D282;
+                    font-size: 50px;
+                    font-style: italic;
+                    font-weight: bold;
+                    margin: 0;">
+                    <span id="category-title">Cuisine</span>
+                </p>
+                <p style="
+                    display: flex;
+                    font-family: 'Source Serif 4', serif;
+                    color:#E4E1CF;
+                    font-size: 20px;
+                    margin: 0;
+                    margin-top: 5px;">
+                    <span id="category-description">Description will be loaded dynamically</span>
+                </p>
+            </div>
+
+            
+            <div style="
+                width: 50%;
+                height: 320px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                z-index: 1;">
+                <div style="
+                    width: 100%;
+                    height: 100%;
+                    background-color: #FFFFFF;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-family: 'Source Serif 4', serif;
+                    color: #333333;">
+                    Picture Here
+                </div>
+            </div>
+        </div>
+
+        
+        <div style="display: flex; align-items: center;">
+            <img src="Icons/Logo.png" class="logo-hover" style="
+            height: 280px;
+            margin-left: 30px;
+            margin-top: 80px;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.7));">
+
+            <img src="Icons/Cooking Space.png" class="logo-hover" style="
+            height: 200px;
+            margin-top: 30px;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.7));">
+        </div>
+
+        
+        <div style="
+            display: flex;
+            gap: 50px;
+            font-family: 'Source Serif 4', serif;
+            font-size: 20px; 
+            color: #E4E1CF;
+            margin-right: 20px;
+            align-items: center;">
+            
+            
+            <div style="display: flex; gap: 20px;">
+                <a href="?cuisine=vegetarian" class="category-link">Vegetarian</a>
+                <a href="?cuisine=vegan" class="category-link">Vegan</a>
+                <a href="?cuisine=gluten-free" class="category-link">Gluten-Free</a>
+                <a href="?cuisine=low-carb" class="category-link">Low-Carb</a>
+                <a href="?cuisine=keto" class="category-link">Keto</a>
+            </div>
+
+            
+            <div class="search-container">
+                <div class="search-input-wrapper">
+                    <input type="text" placeholder="Search..." id="searchInput" style="
+                        padding: 10px 40px 10px 15px;
+                        border: none;
+                        border-radius: 20px;
+                        font-size: 16px;
+                        font-family: 'Source Serif 4', serif;
+                        background-color: #E4E1CF;
+                        color: #333;
+                        width: 200px;
+                        outline: none;
+                        cursor: text;">
+                    
+                    <img src="Icons/search-icon.png" id="searchIcon" style="
+                        position: absolute;
+                        right: 15px;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        height: 18px;
+                        cursor: pointer;">
+                </div>
+
+                
+                <div class="search-dropdown" id="searchDropdown">
+                    <div class="search-results">
+                    </div>
+                </div>
+            </div>
+
+            
+            <button class="login-btn" onclick="window.location.href='login.html'">
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiM0NjQ1MzAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMjAgMjF2LTJhNCA0IDAgMCAwLTQtNEg4YTQgNCAwIDAgMC00IDR2MiI+PC9wYXRoPjxjaXJjbGUgY3g9IjEyIiBjeT0iNyIgcj0iNCIgLz48L3N2Zz4=" alt="User icon" style="width: 24px; height: 24px; filter: brightness(0.2);">
+                Login
+            </button>
+        </div>
+    </div>
+
+    
+    <div style="min-height: calc(100vh - 120px - 230px); margin-top: 350px; margin-bottom: -250px;">
+        
+        <div style="
+            background-color: #464530;
+            border-radius: 50px; 
+            height: 500px; 
+            width: 96%; 
+            margin: 20px auto -250px auto;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;">
+            
+            <div id="recipe-container" style="
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+                padding: 0 20px;
+                align-items: center;">
+            </div>
+        </div>
+    </div>
+
+    
+    <div style="
+        background-color: #565435;
+        width: 100vw;
+        height: 300px;
+        margin-top: -250px;
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+        justify-content: space-between;
+        box-sizing: border-box;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);">
+
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <img src="Icons/Logo.png" style="
+            height: 350px;
+            margin-top: -170px;
+            filter: drop-shadow(2px 2px 4px rgba(255, 255, 255, 0.7));">
+            
+            <img src="Icons/Cooking Space.png" style="
+            height: 150px;
+            margin-top: -110px;
+            margin-left: 50px;
+            filter: drop-shadow(2px 2px 4px rgba(255, 255, 255, 0.7));">
+        </div>
+
+        <div style="font-family: 'Source Serif 4', serif;
+            color: #E4E1CF;
+            position: absolute;
+            font-size: 25px;
+            margin-left: 25%;
+            display: flex;
+            align-items: center;
+            gap: 130px;
+            margin-top: -150px;">
+            <a href="#" class="footer-link">Recipe Categories</a>
+            <a href="#" class="footer-link">Ingredients Categories</a>
+            <a href="#" class="footer-link">Cooking Tips</a>
+            <a href="#" class="footer-link">Follow Us</a>
+            <a href="#" class="footer-link">Contact Us</a>
+            <a href="#" class="footer-link">About Us</a>
+        </div>
+    </div>
+
+    
+    <div style="
+        background-color: #E4E1CF;
+        height: 60px;
+        width: 100%;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Source Serif 4', serif;
+        color: #141414;
+        font-size: 18px;
+        box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.2);
+        z-index: 999;">
+        &copy; 2023 Cooking Space. All rights reserved.
+    </div>
+
+    
+    <div class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+        ↑
+    </div>
+
+    
+    <script>
+        const categoryData = {
+            vegetarian: {
+                name: "Vegetarian",
+                title: "Vegetarian Recipes",
+                description: "Discover delicious meat-free recipes that are packed with protein and nutrients. From hearty vegetable dishes to creative meat alternatives, explore the world of vegetarian cooking.",
+                recipes: [
+                    { name: "Mushroom Risotto", image: "dietary/vegetarian/mushroom-risotto.jpg" },
+                    { name: "Spinach Lasagna", image: "dietary/vegetarian/spinach-lasagna.jpg" },
+                    { name: "Quinoa Buddha Bowl", image: "dietary/vegetarian/quinoa-bowl.jpg" },
+                    { name: "Eggplant Parmesan", image: "dietary/vegetarian/eggplant-parm.jpg" },
+                    { name: "Vegetable Curry", image: "dietary/vegetarian/veg-curry.jpg" }
+                ]
+            },
+            vegan: {
+                name: "Vegan",
+                title: "Vegan Recipes",
+                description: "Explore plant-based recipes that are completely free of animal products. From dairy-free desserts to protein-rich main dishes, discover the versatility of vegan cooking.",
+                recipes: [
+                    { name: "Vegan Buddha Bowl", image: "dietary/vegan/buddha-bowl.jpg" },
+                    { name: "Tofu Stir-Fry", image: "dietary/vegan/tofu-stirfry.jpg" },
+                    { name: "Vegan Mac & Cheese", image: "dietary/vegan/vegan-mac.jpg" },
+                    { name: "Lentil Curry", image: "dietary/vegan/lentil-curry.jpg" },
+                    { name: "Vegan Chocolate Cake", image: "dietary/vegan/chocolate-cake.jpg" }
+                ]
+            },
+            "gluten-free": {
+                name: "Gluten-Free",
+                title: "Gluten-Free Recipes",
+                description: "Enjoy delicious recipes without any gluten-containing ingredients. From bread alternatives to naturally gluten-free dishes, find safe and tasty options for your diet.",
+                recipes: [
+                    { name: "Gluten-Free Pizza", image: "dietary/gluten-free/pizza.jpg" },
+                    { name: "Quinoa Fried Rice", image: "dietary/gluten-free/quinoa-rice.jpg" },
+                    { name: "Almond Flour Cookies", image: "dietary/gluten-free/almond-cookies.jpg" },
+                    { name: "Cauliflower Pasta", image: "dietary/gluten-free/cauliflower-pasta.jpg" },
+                    { name: "Gluten-Free Bread", image: "dietary/gluten-free/bread.jpg" }
+                ]
+            },
+            "low-carb": {
+                name: "Low-Carb",
+                title: "Low-Carb Recipes",
+                description: "Find satisfying recipes that are low in carbohydrates but high in flavor. From keto-friendly dishes to healthy alternatives, maintain your low-carb lifestyle with these delicious options.",
+                recipes: [
+                    { name: "Zucchini Noodles", image: "dietary/low-carb/zoodles.jpg" },
+                    { name: "Cauliflower Rice", image: "dietary/low-carb/cauliflower-rice.jpg" },
+                    { name: "Grilled Chicken Salad", image: "dietary/low-carb/chicken-salad.jpg" },
+                    { name: "Stuffed Bell Peppers", image: "dietary/low-carb/stuffed-peppers.jpg" },
+                    { name: "Low-Carb Pizza", image: "dietary/low-carb/pizza.jpg" }
+                ]
+            },
+            keto: {
+                name: "Keto",
+                title: "Keto Recipes",
+                description: "Explore high-fat, low-carb recipes perfect for the ketogenic diet. From satisfying breakfasts to decadent desserts, discover keto-friendly meals that keep you in ketosis.",
+                recipes: [
+                    { name: "Keto Breakfast Bowl", image: "dietary/keto/breakfast-bowl.jpg" },
+                    { name: "Fathead Pizza", image: "dietary/keto/fathead-pizza.jpg" },
+                    { name: "Keto Chicken Alfredo", image: "dietary/keto/chicken-alfredo.jpg" },
+                    { name: "Keto Chocolate Mousse", image: "dietary/keto/chocolate-mousse.jpg" },
+                    { name: "Keto Salmon", image: "dietary/keto/salmon.jpg" }
+                ]
+            }
+        };
+
+        // Function to get URL parameters
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        // Function to update page content based on category
+        function updatePageContent() {
+            const category = getUrlParameter('category');
+            const categoryName = document.getElementById('category-name');
+            const categoryTitle = document.getElementById('category-title');
+            const categoryDescription = document.getElementById('category-description');
+
+            // Update the navigation and title
+            categoryName.textContent = category.charAt(0).toUpperCase() + category.slice(1);
+            categoryTitle.textContent = category.charAt(0).toUpperCase() + category.slice(1);
+
+            // Update description based on category
+            const descriptions = {
+                'vegetarian': 'Discover delicious vegetarian recipes that are both nutritious and satisfying.',
+                'vegan': 'Explore plant-based vegan recipes that are cruelty-free and environmentally friendly.',
+                'gluten-free': 'Find gluten-free recipes perfect for those with celiac disease or gluten sensitivity.',
+                'keto': 'Browse keto-friendly recipes that are low in carbs and high in healthy fats.',
+                'paleo': 'Discover paleo recipes that focus on whole, unprocessed foods.'
+            };
+
+            categoryDescription.textContent = descriptions[category] || 'Browse our collection of recipes.';
+
+            // Update recipe cards
+            const recipeContainer = document.getElementById('recipe-container');
+            recipeContainer.innerHTML = categoryData[category].recipes.map(recipe => `
+                <a href="recipe.html?recipe=${encodeURIComponent(recipe.name)}" style="text-decoration: none; color: inherit; transition: transform 0.3s ease;">
+                    <div style="width: 350px; text-align: center;">
+                        <div style="
+                            background-color: #FFFFFF;
+                            width: 100%;
+                            height: 350px;
+                            border-radius: 15px;
+                            margin-bottom: 10px;
+                            background-image: url('${recipe.image}');
+                            background-size: cover;
+                            background-position: center;
+                            transition: transform 0.3s ease;">
+                        </div>
+                        <div style="
+                            font-family: 'Source Serif 4', serif;
+                            color: #55D282;
+                            font-size: 30px;">
+                            ${recipe.name}
+                        </div>
+                    </div>
+                </a>
+            `).join('');
+
+            // Update active category link
+            document.querySelectorAll('.category-link').forEach(link => {
+                link.style.color = link.href.includes(category) ? '#55D282' : '#E4E1CF';
+            });
+        }
+
+        // Initialize page content when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            updatePageContent();
+
+            // Search dropdown functionality
+            const searchInput = document.getElementById('searchInput');
+            const searchIcon = document.getElementById('searchIcon');
+            const searchDropdown = document.getElementById('searchDropdown');
+            const searchResults = searchDropdown.querySelector('.search-results');
+
+            function toggleSearchDropdown(show) {
+                const hasInput = searchInput.value.trim().length > 0;
+                if (show && hasInput) {
+                    searchDropdown.classList.add('active');
+                    updateDropdownState();
+                } else {
+                    searchDropdown.classList.remove('active');
+                }
+            }
+
+            function updateDropdownState() {
+                const hasInput = searchInput.value.trim().length > 0;
+                searchDropdown.classList.toggle('expanded', hasInput);
+                
+                if (hasInput) {
+                    while (searchResults.firstChild) {
+                        searchResults.removeChild(searchResults.firstChild);
+                    }
+                }
+            }
+
+            searchInput.addEventListener('input', () => {
+                toggleSearchDropdown(true);
+            });
+
+            document.addEventListener('click', (e) => {
+                const searchContainer = e.target.closest('.search-container');
+                if (!searchContainer) {
+                    toggleSearchDropdown(false);
+                }
+            });
+
+            searchDropdown.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    toggleSearchDropdown(false);
+                    searchInput.blur();
+                }
+            });
+
+            // Show/hide back to top button based on scroll position
+            window.addEventListener('scroll', function() {
+                const backToTop = document.querySelector('.back-to-top');
+                if (window.pageYOffset > 300) {
+                    backToTop.style.opacity = '0.8';
+                    backToTop.style.visibility = 'visible';
+                } else {
+                    backToTop.style.opacity = '0';
+                    backToTop.style.visibility = 'hidden';
+                }
+            });
+        });
+    </script>
+
+</body>
+</html> 

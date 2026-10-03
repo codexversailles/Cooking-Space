@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cooking Space</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;700&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles/main.css">
+    <style>
+        .footer-link {
+            color: #E4E1CF;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .footer-link:hover {
+            opacity: 0.8;
+        }
+
+        .logo-hover {
+            transition: all 0.3s ease;
+        }
+
+        .logo-hover:hover {
+            transform: scale(1.1);
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.7)) brightness(1.2) !important;
+        }
+
+        
+        .search-container {
+            position: relative;
+        }
+
+        .search-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 200px;
+            background-color: #E4E1CF;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-top: 5px;
+            z-index: 1000;
+            padding: 15px;
+            transition: width 0.3s ease, transform 0.2s ease, opacity 0.2s ease;
+            transform-origin: right top;
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        .search-dropdown.active {
+            display: block;
+            animation: dropdownAppear 0.2s ease forwards;
+        }
+
+        @keyframes dropdownAppear {
+            0% {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .search-dropdown.expanded {
+            width: 350px;
+        }
+
+        .search-results {
+            background-color: #E4E1CF;
+            border-radius: 8px;
+            padding: 15px;
+            color: #333;
+            min-height: 50px;
+            max-height: 400px;
+            overflow-y: auto;
+            font-family: 'Source Serif 4', serif;
+            font-size: 16px;
+            opacity: 0;
+            transform: translateY(-10px);
+            animation: resultsAppear 0.3s ease 0.1s forwards;
+        }
+
+        @keyframes resultsAppear {
+            0% {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .search-input-wrapper {
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+
+    
+    <div style="background-color: #464530; height: 120px; width: 100%; position: relative; display: flex; align-items: center; padding: 0 20px; justify-content: space-between;">
+
+        
+        <div style="
+            background-color: #565435;
+            height: 230px; 
+            width: 100vw;
+            position: absolute;
+            display: flex;
+            top: 120px;
+            left: 0;
+            align-items: center;
+            justify-content: space-between;">
+
+            
+            <div style="padding-left: 90px; padding-top: 20px;">
+                <p style="
+                    display: flex;
+                    font-family: 'Source Serif 4', serif;
+                    color: #E4E1CF;
+                    font-size: 30px;
+                    margin: 0;">
+                    Home > Profile
+                </p>
+                <p class="zcool-font" style="
+                    display: flex;
+                    color: #55D282;
+                    font-size: 50px;
+                    font-style: italic;
+                    font-weight: bold;
+                    margin: 0;">
+                    My Profile
+                </p>
+                <p style="
+                    display: flex;
+                    font-family: 'Source Serif 4', serif;
+                    color:#E4E1CF;
+                    font-size: 20px;
+                    margin: 0;
+                    margin-top: 5px;">
+                    View and manage your cooking journey
+                </p>
+            </div>
+
+        </div>
+
+        
+        <div style="display: flex; align-items: center;">
+            <img src="Icons/Logo.png" class="logo-hover" style="
+            height: 280px;
+            margin-left: 30px;
+            margin-top: 80px;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.7));">
+
+            <img src="Icons/Cooking Space.png" class="logo-hover" style="
+            height: 200px;
+            margin-top: 30px;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.7));">
+        </div>
+
+        
+        <div style="
+            display: flex;
+            gap: 50px;
+            font-family: 'Source Serif 4', serif;
+            font-size: 20px; 
+            color: #E4E1CF;
+            margin-right: 20px;
+            align-items: center;">
+            
+            
+            <div style="display: flex; align-items: center;">
+                <select id="recipes" name="recipes">
+                    <option value="recipe1">Recipes</option>
+                    <option value="recipe2">Recipe 1</option>
+                    <option value="recipe3">Recipe 1</option>
+                </select>
+                <select id="ingredients" name="ingredients">
+                    <option value="ingredient1">Ingredients</option>
+                    <option value="ingredient2">Ingredient 1</option>
+                    <option value="ingredient3">Ingredient 2</option>
+                </select>
+                <select id="cookingTips" name="cookingTips">
+                    <option value="tip1">Cooking Tips</option>
+                    <option value="tip2">Tip 1</option>
+                    <option value="tip3">Tip 2</option>
+                </select>
+            </div>
+
+            
+            <div class="search-container">
+                <div class="search-input-wrapper">
+                    <input type="text" placeholder="Search..." id="searchInput" style="
+                        padding: 10px 40px 10px 15px;
+                        border: none;
+                        border-radius: 20px;
+                        font-size: 16px;
+                        font-family: 'Source Serif 4', serif;
+                        background-color: #E4E1CF;
+                        color: #333;
+                        width: 200px;
+                        outline: none;
+                        cursor: text;">
+                    
+                    <img src="Icons/search-icon.png" id="searchIcon" style="
+                        position: absolute;
+                        right: 15px;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        height: 18px;
+                        cursor: pointer;">
+                </div>
+
+                
+                <div class="search-dropdown" id="searchDropdown">
+                    <div class="search-results">
+                    </div>
+                </div>
+            </div>
+
+            
+            <button class="login-btn" onclick="window.location.href='login.html'">
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiM0NjQ1MzAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMjAgMjF2LTJhNCA0IDAgMCAwLTQtNEg4YTQgNCAwIDAgMC00IDR2MiI+PC9wYXRoPjxjaXJjbGUgY3g9IjEyIiBjeT0iNyIgcj0iNCIgLz48L3N2Zz4=" alt="User icon" style="width: 24px; height: 24px; filter: brightness(0.2);">
+                Login
+            </button>
+        </div>
+    </div>
+
+    
+    <div style="min-height: calc(100vh - 120px - 230px); padding: 280px 80px 40px 80px;">
+        
+        <div style="display: flex; gap: 40px;">
+            
+            <div style="flex: 1; background-color: #E4E1CF; padding: 30px; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDY0NTMwIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTUwIDUwQzUwIDYxLjA0NTcgNjEuMDQ1NyA3MiA3MiA3MkM4Mi45NTQzIDcyIDk0IDYxLjA0NTcgOTQgNTBDOTQgMzguOTU0MyA4Mi45NTQzIDI4IDcyIDI4QzYxLjA0NTcgMjggNTAgMzguOTU0MyA1MCA1MFoiLz48cGF0aCBkPSJNMjAgODRDMjAgNzIuOTU0MyAzMS4wNDU3IDYyIDQyIDYySDU4QzY4Ljk1NDMgNjIgODAgNzIuOTU0MyA4MCA4NCIvPjwvc3ZnPg==" alt="Profile" style="width: 120px; height: 120px; margin-bottom: 15px;">
+                    <h2 style="font-family: 'Source Serif 4', serif; color: #464530; margin: 0;">John Doe</h2>
+                    <p style="font-family: 'Source Serif 4', serif; color: #565435; margin: 5px 0;">Member since 2023</p>
+                </div>
+                <div style="border-top: 2px solid #565435; padding-top: 20px;">
+                    <h3 style="font-family: 'Source Serif 4', serif; color: #464530; margin-bottom: 15px;">Profile Stats</h3>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <span style="font-family: 'Source Serif 4', serif; color: #565435;">Recipes Viewed</span>
+                        <span style="font-family: 'Source Serif 4', serif; color: #464530; font-weight: bold;">24</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <span style="font-family: 'Source Serif 4', serif; color: #565435;">Saved Recipes</span>
+                        <span style="font-family: 'Source Serif 4', serif; color: #464530; font-weight: bold;">12</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="font-family: 'Source Serif 4', serif; color: #565435;">Reviews</span>
+                        <span style="font-family: 'Source Serif 4', serif; color: #464530; font-weight: bold;">5</span>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div style="flex: 2; background-color: #E4E1CF; padding: 30px; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                <h2 style="font-family: 'Source Serif 4', serif; color: #464530; margin-bottom: 25px;">Recipe History</h2>
+                
+                
+                <div style="display: flex; flex-direction: column; gap: 20px;">
+                    
+                    <div style="display: flex; gap: 20px; padding: 15px; background-color: white; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);">
+                        <img src="https://via.placeholder.com/100" alt="Recipe" style="width: 100px; height: 100px; border-radius: 8px; object-fit: cover;">
+                        <div style="flex: 1;">
+                            <h3 style="font-family: 'Source Serif 4', serif; color: #464530; margin: 0 0 5px 0;">Classic Chocolate Cake</h3>
+                            <p style="font-family: 'Source Serif 4', serif; color: #565435; margin: 0 0 10px 0;">Last viewed: 2 days ago</p>
+                            <div style="display: flex; gap: 10px;">
+                                <span style="font-family: 'Source Serif 4', serif; color: #565435; font-size: 14px;">Difficulty: Easy</span>
+                                <span style="font-family: 'Source Serif 4', serif; color: #565435; font-size: 14px;">Prep time: 30 mins</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div style="display: flex; gap: 20px; padding: 15px; background-color: white; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);">
+                        <img src="https://via.placeholder.com/100" alt="Recipe" style="width: 100px; height: 100px; border-radius: 8px; object-fit: cover;">
+                        <div style="flex: 1;">
+                            <h3 style="font-family: 'Source Serif 4', serif; color: #464530; margin: 0 0 5px 0;">Spaghetti Carbonara</h3>
+                            <p style="font-family: 'Source Serif 4', serif; color: #565435; margin: 0 0 10px 0;">Last viewed: 5 days ago</p>
+                            <div style="display: flex; gap: 10px;">
+                                <span style="font-family: 'Source Serif 4', serif; color: #565435; font-size: 14px;">Difficulty: Medium</span>
+                                <span style="font-family: 'Source Serif 4', serif; color: #565435; font-size: 14px;">Prep time: 25 mins</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div style="display: flex; gap: 20px; padding: 15px; background-color: white; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);">
+                        <img src="https://via.placeholder.com/100" alt="Recipe" style="width: 100px; height: 100px; border-radius: 8px; object-fit: cover;">
+                        <div style="flex: 1;">
+                            <h3 style="font-family: 'Source Serif 4', serif; color: #464530; margin: 0 0 5px 0;">Chicken Stir Fry</h3>
+                            <p style="font-family: 'Source Serif 4', serif; color: #565435; margin: 0 0 10px 0;">Last viewed: 1 week ago</p>
+                            <div style="display: flex; gap: 10px;">
+                                <span style="font-family: 'Source Serif 4', serif; color: #565435; font-size: 14px;">Difficulty: Easy</span>
+                                <span style="font-family: 'Source Serif 4', serif; color: #565435; font-size: 14px;">Prep time: 20 mins</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div style="
+        background-color: #565435;
+        width: 100vw;
+        height: 300px;
+        margin-top: 50px;
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+        justify-content: space-between;
+        box-sizing: border-box;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);">
+
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <img src="Icons/Logo.png" style="
+            height: 350px;
+            margin-top: -170px;
+            filter: drop-shadow(2px 2px 4px rgba(255, 255, 255, 0.7));">
+            
+            <img src="Icons/Cooking Space.png" style="
+            height: 150px;
+            margin-top: -110px;
+            margin-left: 50px;
+            filter: drop-shadow(2px 2px 4px rgba(255, 255, 255, 0.7));">
+        </div>
+
+        <div style="font-family: 'Source Serif 4', serif;
+            color: #E4E1CF;
+            position: absolute;
+            font-size: 25px;
+            margin-left: 25%;
+            display: flex;
+            align-items: center;
+            gap: 130px;
+            margin-top: -150px;">
+            <a href="#" class="footer-link">Recipe Categories</a>
+            <a href="#" class="footer-link">Ingredients Categories</a>
+            <a href="#" class="footer-link">Cooking Tips</a>
+            <a href="#" class="footer-link">Follow Us</a>
+            <a href="#" class="footer-link">Contact Us</a>
+            <a href="#" class="footer-link">About Us</a>
+        </div>
+    </div>
+
+    
+    <div style="
+        background-color: #E4E1CF;
+        height: 60px;
+        width: 100%;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Source Serif 4', serif;
+        color: #141414;
+        font-size: 18px;
+        box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.2);
+        z-index: 999;">
+        &copy; 2023 Cooking Space. All rights reserved.
+    </div>
+
+    
+    <div class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+        ↑
+    </div>
+
+    
+    <script>
+        // Show/hide back to top button based on scroll position
+        window.addEventListener('scroll', function() {
+            const backToTop = document.querySelector('.back-to-top');
+            if (window.pageYOffset > 300) {
+                backToTop.style.opacity = '0.8';
+                backToTop.style.visibility = 'visible';
+            } else {
+                backToTop.style.opacity = '0';
+                backToTop.style.visibility = 'hidden';
+            }
+        });
+
+        // Search dropdown functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const searchIcon = document.getElementById('searchIcon');
+            const searchDropdown = document.getElementById('searchDropdown');
+            const searchResults = searchDropdown.querySelector('.search-results');
+
+            function toggleSearchDropdown(show) {
+                const hasInput = searchInput.value.trim().length > 0;
+                if (show && hasInput) {
+                    searchDropdown.classList.add('active');
+                    updateDropdownState();
+                } else {
+                    searchDropdown.classList.remove('active');
+                }
+            }
+
+            function updateDropdownState() {
+                const hasInput = searchInput.value.trim().length > 0;
+                searchDropdown.classList.toggle('expanded', hasInput);
+                
+                // Here you would typically add your search logic and display results
+                if (hasInput) {
+                    // For now, we'll just clear the results area
+                    while (searchResults.firstChild) {
+                        searchResults.removeChild(searchResults.firstChild);
+                    }
+                }
+            }
+
+            // Show dropdown only when typing
+            searchInput.addEventListener('input', () => {
+                toggleSearchDropdown(true);
+            });
+
+            // Handle clicks outside the search container
+            document.addEventListener('click', (e) => {
+                const searchContainer = e.target.closest('.search-container');
+                if (!searchContainer) {
+                    toggleSearchDropdown(false);
+                }
+            });
+
+            // Prevent dropdown from closing when clicking inside it
+            searchDropdown.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+
+            // Optional: Close dropdown when pressing Escape
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    toggleSearchDropdown(false);
+                    searchInput.blur();
+                }
+            });
+        });
+    </script>
+
+</body>
+</html> 

@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Cooking Space</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;700&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles/main.css">
+    <style>
+        .footer-link {
+            color: #E4E1CF;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .footer-link:hover {
+            opacity: 0.8;
+        }
+
+        .logo-hover {
+            transition: all 0.3s ease;
+        }
+
+        .logo-hover:hover {
+            transform: scale(1.1);
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.7)) brightness(1.2) !important;
+        }
+
+        
+        .search-container {
+            position: relative;
+        }
+
+        .search-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 200px;
+            background-color: #E4E1CF;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-top: 5px;
+            z-index: 1000;
+            padding: 15px;
+            transition: width 0.3s ease, transform 0.2s ease, opacity 0.2s ease;
+            transform-origin: right top;
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        .search-dropdown.active {
+            display: block;
+            animation: dropdownAppear 0.2s ease forwards;
+        }
+
+        @keyframes dropdownAppear {
+            0% {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .search-dropdown.expanded {
+            width: 350px;
+        }
+
+        .search-results {
+            background-color: #E4E1CF;
+            border-radius: 8px;
+            padding: 15px;
+            color: #333;
+            min-height: 50px;
+            max-height: 400px;
+            overflow-y: auto;
+            font-family: 'Source Serif 4', serif;
+            font-size: 16px;
+            opacity: 0;
+            transform: translateY(-10px);
+            animation: resultsAppear 0.3s ease 0.1s forwards;
+        }
+
+        @keyframes resultsAppear {
+            0% {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .search-input-wrapper {
+            position: relative;
+        }
+
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #55D282;
+            color: #E4E1CF;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .back-to-top:hover {
+            background-color: #464530;
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+    
+    <div style="background-color: #464530; height: 120px; width: 100%; position: relative; display: flex; align-items: center; padding: 0 20px; justify-content: space-between;">
+        
+        <div style="display: flex; align-items: center;">
+            <img src="Icons/Logo.png" class="logo-hover" style="
+            height: 280px;
+            margin-left: 30px;
+            margin-top: 80px;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.7));">
+
+            <img src="Icons/Cooking Space.png" class="logo-hover" style="
+            height: 200px;
+            margin-top: 30px;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.7));">
+        </div>
+
+        
+        <div style="
+            display: flex;
+            gap: 50px;
+            font-family: 'Source Serif 4', serif;
+            font-size: 20px; 
+            color: #E4E1CF;
+            margin-right: 20px;
+            align-items: center;">
+            
+            
+            <div style="display: flex; align-items: center;">
+                <select id="recipes" name="recipes">
+                    <option value="recipe1">Recipes</option>
+                    <option value="recipe2">Recipe 1</option>
+                    <option value="recipe3">Recipe 1</option>
+                </select>
+                <select id="ingredients" name="ingredients">
+                    <option value="ingredient1">Ingredients</option>
+                    <option value="ingredient2">Ingredient 1</option>
+                    <option value="ingredient3">Ingredient 2</option>
+                </select>
+                <select id="cookingTips" name="cookingTips">
+                    <option value="tip1">Cooking Tips</option>
+                    <option value="tip2">Tip 1</option>
+                    <option value="tip3">Tip 2</option>
+                </select>
+            </div>
+
+            
+            <div class="search-container">
+                <div class="search-input-wrapper">
+                    <input type="text" placeholder="Search..." id="searchInput" style="
+                        padding: 10px 40px 10px 15px;
+                        border: none;
+                        border-radius: 20px;
+                        font-size: 16px;
+                        font-family: 'Source Serif 4', serif;
+                        background-color: #E4E1CF;
+                        color: #333;
+                        width: 200px;
+                        outline: none;
+                        cursor: text;">
+                    
+                    <img src="Icons/search-icon.png" id="searchIcon" style="
+                        position: absolute;
+                        right: 15px;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        height: 18px;
+                        cursor: pointer;">
+                </div>
+
+                
+                <div class="search-dropdown" id="searchDropdown">
+                    <div class="search-results">
+                    </div>
+                </div>
+            </div>
+
+            
+            <button class="login-btn" onclick="window.location.href='login.html'">
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiM0NjQ1MzAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMjAgMjF2LTJhNCA0IDAgMCAwLTQtNEg4YTQgNCAwIDAgMC00IDR2MiI+PC9wYXRoPjxjaXJjbGUgY3g9IjEyIiBjeT0iNyIgcj0iNCIgLz48L3N2Zz4=" alt="User icon" style="width: 24px; height: 24px; filter: brightness(0.2);">
+                Login
+            </button>
+        </div>
+    </div>
+
+    
+    <div style="margin-top: 0;">
+        
+        <div style="
+            background-color: #565435;
+            padding: 40px 60px;
+            text-align: center;
+            color: #E4E1CF;">
+            <h1 style="
+                font-family: 'ZCOOL XiaoWei', serif;
+                color: #55D282;
+                font-size: 70px;
+                font-style: italic;
+                margin: 0 0 20px 0;">
+                About Cooking Space
+            </h1>
+            <p style="
+                font-family: 'Source Serif 4', serif;
+                font-size: 24px;
+                max-width: 800px;
+                margin: 0 auto;
+                line-height: 1.6;">
+                Discover Our Story, Mission, and the Team Behind Your Favorite Recipes
+            </p>
+        </div>
+
+        
+        <div style="
+            background-color: #464530;
+            padding: 60px;">
+            <div style="
+                max-width: 1200px;
+                margin: 0 auto;">
+                <h2 style="
+                    font-family: 'ZCOOL XiaoWei', serif;
+                    color: #55D282;
+                    font-size: 50px;
+                    font-style: italic;
+                    margin: 0 0 30px 0;">
+                    About the Website
+                </h2>
+                <p style="
+                    font-family: 'Source Serif 4', serif;
+                    color: #E4E1CF;
+                    font-size: 20px;
+                    line-height: 1.8;
+                    margin-bottom: 30px;">
+                    Cooking Space is your ultimate destination for culinary exploration and learning. Launched in 2025, we've grown from a simple recipe collection to a comprehensive cooking resource that helps home cooks of all skill levels discover the joy of cooking.
+                </p>
+                <p style="
+                    font-family: 'Source Serif 4', serif;
+                    color: #E4E1CF;
+                    font-size: 20px;
+                    line-height: 1.8;">
+                    Our platform features carefully curated recipes, detailed cooking guides, and expert tips that span various cuisines, dietary preferences, and cooking methods. From quick weeknight meals to elaborate holiday feasts, we're here to make your culinary journey enjoyable and successful.
+                </p>
+            </div>
+        </div>
+
+        
+        <div style="
+            background-color: #565435;
+            padding: 60px;">
+            <div style="
+                max-width: 1200px;
+                margin: 0 auto;">
+                <h2 style="
+                    font-family: 'ZCOOL XiaoWei', serif;
+                    color: #55D282;
+                    font-size: 50px;
+                    font-style: italic;
+                    margin: 0 0 40px 0;">
+                    About the Team
+                </h2>
+                <div style="
+                    display: flex;
+                    justify-content: space-between;
+                    gap: 30px;">
+                    
+                    
+                    <div style="
+                        flex: 1;
+                        background-color: rgba(228, 225, 207, 0.1);
+                        border-radius: 18px;
+                        padding: 30px;
+                        text-align: center;
+                        transition: transform 0.3s ease, box-shadow 0.3s ease;"
+                        onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 16px rgba(0, 0, 0, 0.2)';"
+                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                        <div style="width: 120px; height: 120px; background-color: #E4E1CF; border-radius: 50%; margin: 0 auto 20px;"></div>
+                        <h3 style="color: #55D282; font-family: 'Source Serif 4', serif; font-size: 24px; margin: 0;">UI/UX Designer</h3>
+                    </div>
+
+                    <div style="
+                        flex: 1;
+                        background-color: rgba(228, 225, 207, 0.1);
+                        border-radius: 18px;
+                        padding: 30px;
+                        text-align: center;
+                        transition: transform 0.3s ease, box-shadow 0.3s ease;"
+                        onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 16px rgba(0, 0, 0, 0.2)';"
+                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                        <div style="width: 120px; height: 120px; background-color: #E4E1CF; border-radius: 50%; margin: 0 auto 20px;"></div>
+                        <h3 style="color: #55D282; font-family: 'Source Serif 4', serif; font-size: 24px; margin: 0;">Front-end Dev</h3>
+                    </div>
+
+                    <div style="
+                        flex: 1;
+                        background-color: rgba(228, 225, 207, 0.1);
+                        border-radius: 18px;
+                        padding: 30px;
+                        text-align: center;
+                        transition: transform 0.3s ease, box-shadow 0.3s ease;"
+                        onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 16px rgba(0, 0, 0, 0.2)';"
+                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                        <div style="width: 120px; height: 120px; background-color: #E4E1CF; border-radius: 50%; margin: 0 auto 20px;"></div>
+                        <h3 style="color: #55D282; font-family: 'Source Serif 4', serif; font-size: 24px; margin: 0;">Back-end Dev</h3>
+                    </div>
+
+                    <div style="
+                        flex: 1;
+                        background-color: rgba(228, 225, 207, 0.1);
+                        border-radius: 18px;
+                        padding: 30px;
+                        text-align: center;
+                        transition: transform 0.3s ease, box-shadow 0.3s ease;"
+                        onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 16px rgba(0, 0, 0, 0.2)';"
+                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                        <div style="width: 120px; height: 120px; background-color: #E4E1CF; border-radius: 50%; margin: 0 auto 20px;"></div>
+                        <h3 style="color: #55D282; font-family: 'Source Serif 4', serif; font-size: 24px; margin: 0;">Database Analyst</h3>
+                    </div>
+
+                    <div style="
+                        flex: 1;
+                        background-color: rgba(228, 225, 207, 0.1);
+                        border-radius: 18px;
+                        padding: 30px;
+                        text-align: center;
+                        transition: transform 0.3s ease, box-shadow 0.3s ease;"
+                        onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 16px rgba(0, 0, 0, 0.2)';"
+                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                        <div style="width: 120px; height: 120px; background-color: #E4E1CF; border-radius: 50%; margin: 0 auto 20px;"></div>
+                        <h3 style="color: #55D282; font-family: 'Source Serif 4', serif; font-size: 24px; margin: 0;">Presenter</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div style="
+            background-color: #464530;
+            padding: 60px;">
+            <div style="
+                max-width: 1200px;
+                margin: 0 auto;">
+                <h2 style="
+                    font-family: 'ZCOOL XiaoWei', serif;
+                    color: #55D282;
+                    font-size: 50px;
+                    font-style: italic;
+                    margin: 0 0 40px 0;">
+                    Mission and Values
+                </h2>
+                <div style="
+                    display: flex;
+                    gap: 30px;">
+                    
+                    
+                    <div style="
+                        flex: 1;
+                        background-color: rgba(228, 225, 207, 0.1);
+                        border-radius: 18px;
+                        padding: 40px;
+                        transition: transform 0.3s ease, box-shadow 0.3s ease;"
+                        onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 16px rgba(0, 0, 0, 0.2)';"
+                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                        <h3 style="
+                            color: #55D282;
+                            font-family: 'Source Serif 4', serif;
+                            font-size: 28px;
+                            margin: 0 0 20px 0;">
+                            Our Mission
+                        </h3>
+                        <p style="
+                            color: #E4E1CF;
+                            font-family: 'Source Serif 4', serif;
+                            font-size: 18px;
+                            line-height: 1.6;
+                            margin: 0;">
+                            To empower and inspire home cooks by providing reliable recipes, practical cooking education, and a supportive culinary community.
+                        </p>
+                    </div>
+
+                    
+                    <div style="
+                        flex: 1;
+                        background-color: rgba(228, 225, 207, 0.1);
+                        border-radius: 18px;
+                        padding: 40px;
+                        transition: transform 0.3s ease, box-shadow 0.3s ease;"
+                        onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 16px rgba(0, 0, 0, 0.2)';"
+                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                        <h3 style="
+                            color: #55D282;
+                            font-family: 'Source Serif 4', serif;
+                            font-size: 28px;
+                            margin: 0 0 20px 0;">
+                            Quality First
+                        </h3>
+                        <p style="
+                            color: #E4E1CF;
+                            font-family: 'Source Serif 4', serif;
+                            font-size: 18px;
+                            line-height: 1.6;
+                            margin: 0;">
+                            Every recipe is thoroughly tested and verified to ensure your success in the kitchen.
+                        </p>
+                    </div>
+
+                    
+                    <div style="
+                        flex: 1;
+                        background-color: rgba(228, 225, 207, 0.1);
+                        border-radius: 18px;
+                        padding: 40px;
+                        transition: transform 0.3s ease, box-shadow 0.3s ease;"
+                        onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 16px rgba(0, 0, 0, 0.2)';"
+                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                        <h3 style="
+                            color: #55D282;
+                            font-family: 'Source Serif 4', serif;
+                            font-size: 28px;
+                            margin: 0 0 20px 0;">
+                            Inclusive Cooking
+                        </h3>
+                        <p style="
+                            color: #E4E1CF;
+                            font-family: 'Source Serif 4', serif;
+                            font-size: 18px;
+                            line-height: 1.6;
+                            margin: 0;">
+                            We embrace diverse culinary traditions and accommodate various dietary needs and preferences.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div style="
+        background-color: #565435;
+        padding: 50px;
+        text-align: center;
+        color: #E4E1CF;
+        margin-top: 50px;">
+        <div style="
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;">
+            <a href="#" class="footer-link">Recipe Categories</a>
+            <a href="#" class="footer-link">Ingredients Categories</a>
+            <a href="#" class="footer-link">Cooking Tips</a>
+            <a href="#" class="footer-link">Follow Us</a>
+            <a href="#" class="footer-link">Contact Us</a>
+            <a href="#" class="footer-link">About Us</a>
+        </div>
+        <p style="color: #E4E1CF; font-size: 14px;">&copy; 2023 Cooking Space. All rights reserved.</p>
+    </div>
+
+    
+    <div class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+        ↑
+    </div>
+
+    <script>
+        // Show/hide back to top button based on scroll position
+        window.addEventListener('scroll', function() {
+            const backToTop = document.querySelector('.back-to-top');
+            if (window.pageYOffset > 300) {
+                backToTop.style.opacity = '0.8';
+                backToTop.style.visibility = 'visible';
+            } else {
+                backToTop.style.opacity = '0';
+                backToTop.style.visibility = 'hidden';
+            }
+        });
+
+        // Search dropdown functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const searchIcon = document.getElementById('searchIcon');
+            const searchDropdown = document.getElementById('searchDropdown');
+            const searchResults = searchDropdown.querySelector('.search-results');
+
+            function toggleSearchDropdown(show) {
+                const hasInput = searchInput.value.trim().length > 0;
+                if (show && hasInput) {
+                    searchDropdown.classList.add('active');
+                    updateDropdownState();
+                } else {
+                    searchDropdown.classList.remove('active');
+                }
+            }
+
+            function updateDropdownState() {
+                const hasInput = searchInput.value.trim().length > 0;
+                searchDropdown.classList.toggle('expanded', hasInput);
+                
+                if (hasInput) {
+                    while (searchResults.firstChild) {
+                        searchResults.removeChild(searchResults.firstChild);
+                    }
+                }
+            }
+
+            searchInput.addEventListener('input', () => {
+                toggleSearchDropdown(true);
+            });
+
+            document.addEventListener('click', (event) => {
+                const isClickInside = searchDropdown.contains(event.target) || 
+                                    searchInput.contains(event.target) ||
+                                    searchIcon.contains(event.target);
+                
+                if (!isClickInside) {
+                    toggleSearchDropdown(false);
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

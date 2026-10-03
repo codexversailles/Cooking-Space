@@ -1,0 +1,126 @@
+/* Navigation Bar */
+.nav-bar {
+    background-color: #464530;
+    height: 120px;
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    justify-content: space-between;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo-container img {
+    height: 280px;
+    margin-left: 30px;
+    margin-top: 80px;
+}
+
+.logo-container img:last-child {
+    height: 200px;
+    margin-top: 30px;
+}
+
+/* Signup Container */
+.signup-container {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 40px;
+    background-color: #E4E1CF;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.signup-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.signup-title {
+    font-family: 'ZCOOL XiaoWei', serif;
+    color: #464530;
+    font-size: 36px;
+    margin: 0 0 10px 0;
+}
+
+.signup-subtitle {
+    font-family: 'Source Serif 4', serif;
+    color: #565435;
+    font-size: 18px;
+    margin: 0;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-family: 'Source Serif 4', serif;
+    color: #464530;
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #565435;
+    border-radius: 8px;
+    font-family: 'Source Serif 4', serif;
+    font-size: 16px;
+    color: #464530;
+    background-color: #FFFFFF;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #55D282;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 14px;
+    background-color: #55D282;
+    color: #E4E1CF;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Source Serif 4', serif;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #464530;
+}
+
+.additional-options {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.additional-options a {
+    color: #55D282;
+    text-decoration: none;
+    font-family: 'Source Serif 4', serif;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+.additional-options a:hover {
+    color: #464530;
+}
+
+.additional-options p {
+    margin: 10px 0 0 0;
+    font-family: 'Source Serif 4', serif;
+    color: #565435;
+    font-size: 16px;
+} 
